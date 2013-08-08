@@ -1,0 +1,367 @@
+
+(function ($, document, window){
+
+	win = $(window); doc = $(document);
+
+	// *******************************************************************************
+				
+	//start of Albumize object
+
+	function Albumize(){
+			
+				var temp = "temporary arun";
+			
+				// *******************************************************************************
+				
+				//start of Album object
+				
+				var albums = []; //array of Album objects
+				
+				function Album(id, total_images, title, imgs){
+					
+					this.id = id; //album id 
+					this.title = title; //title of the album
+					this.total_images = total_images; //total images in this album
+					
+					this.image_loaded = []; //array of image loaded status
+					
+					this.thumbs_loaded = false; 
+					this.thumb_strip = '';
+					
+					imgs.each(function(index, elem){
+						$(this).attr({"data-albumize-image-id" : index, "data-albumize-album-id" : id});
+					});
+					
+					for(var i = 0; i < total_images; i++){
+						this.image_loaded[i] = false;
+					}
+					 	
+				}
+				
+				function AP(){
+					this.show_image = function(image_id, link){
+						console.log("Album id is "+this.id+"Image id is "+image_id + "and the link is "+link);		
+					};
+				}
+				
+				Album.prototype = new AP();
+				
+				//end of Album object
+				
+				// ********************************************************************************
+			
+				var a_pane = $('#albumize-pane');
+				var a_olay = $('#albumize-olay');
+				var a_a_olay = $('#albumize-album-overlay');
+				var a_win = $('#albumize-album-window');
+				var a_button = $('#albumize-album-list-button');
+				
+				dst = doc.scrollTop();
+				dsl = doc.scrollLeft();
+			
+				this.show = function(){
+				
+					a_olay.fadeIn('slow');
+					a_pane.css({'top' : dst + 'px', 'left' : dsl + 'px'}).slideDown('slow');
+			
+				};
+				
+				this.show_albums = function(){
+					a_olay.fadeIn('slow');
+					a_pane.css({'top' : dst + 'px', 'left' : dsl + 'px'}).slideDown('slow');
+					a_button.click();
+				};
+				
+				this.methods = {
+				
+					init: function(total_albums, albumize){
+						
+						albumize.each(function(index, elem){
+			
+							$(this).attr("data-albumize-album-id", index);
+							
+							var title = $(this).attr("title");
+							
+							if(title == undefined)
+								title = '';
+							
+							console.log("title is :"+title);
+				
+							var album_id = index;
+				
+							var imgs = $(this).children('a');
+							var total_images = imgs.length;
+							
+							console.log('Album '+index + ' has '+total_images + ' images');
+				
+								
+								
+							//create album objects
+							
+							albums[index] = new Album(album_id, total_images, title, imgs);
+							
+							//console.log(albums[album_id]);
+				
+						});
+						
+					},
+				
+					show : function(album_id, image_id, link){
+						
+						//console.log(albums[album_id]);
+						
+						albums[album_id].show_image(image_id, link);
+						
+						var img_width, img_height;
+						var ref_width = 682; var ref_height = 542;
+						
+						var img = new Image();
+						img.src = link;
+						img.onload = function(){
+							
+							if(this.width < 500){
+								img_width = this.width;
+							}else{
+								img_width = 500;
+							}
+							
+							if(img_height < 500){
+								img_height = this.height;	
+							}else{
+								img_height = 500;
+							}
+							
+							var i_width = (img_width/ref_width)*100;
+							var i_height = (img_height/ref_height)*100;
+							
+							var i_top = (100 - i_height)/2;
+							var i_left = (100 - i_width)/2;
+							
+							var jim = $(this);
+							jim.css({"width" : i_width+"%", "height" : i_height+"%", "position" : "absolute", "top" : i_top+"%", "left" : i_left+"%"});
+							
+							$('#albumize-i-window').html(jim);
+							
+						}; //end of img onload	
+						
+					}//end of show
+					
+				}; //end of methods
+	
+			}
+			
+	//end of albumize object
+			
+	
+	// *******************************************************************************
+				
+
+	var a = new Albumize(); //our main albumize object
+
+	$.albumize = function(){
+			
+			//var a = new Albumize();
+			
+			switch(arguments.length){
+			
+				case 0:
+					a.show_albums();
+				break;
+				
+				case 3:
+					if(typeof arguments[0] === "string" && a.methods[arguments[0]]){
+						a.methods[arguments[0]].call(a, arguments[1], arguments[2]);
+					}
+				break;
+				
+				case 4:
+					if(typeof arguments[0] === "string" && a.methods[arguments[0]]){
+						a.methods[arguments[0]].call(a, arguments[1], arguments[2], arguments[3]);
+						a.show();
+					}
+				break;
+			
+			}
+			
+	};
+
+
+	//prepare the DOM and attach events for added DOM elements
+
+	$(document).ready(function(){
+	
+		var doc_height = $(document).height();
+		var doc_width = $(document).width();
+		
+		var win_height = $(window).height();
+		var win_width = $(window).width();
+		
+		var pane_height = (doc_height/win_height)*100 + '%';
+		var pane_width = (doc_width/win_width)*100 + '%';
+		
+		var dst = $(window).scrollTop();
+		var dsl = $(window).scrollLeft();
+		
+		var body = $(document.body); 
+		
+		var body = $(document.body);
+		
+		var albumize = $('.albumize');
+		
+		var total_albums = albumize.length;
+		
+	
+		initDOM();
+		
+		processDOM();
+		
+		function processDOM(){
+		
+			$.albumize('init', total_albums, albumize);
+			
+		}
+		
+		function initDOM(){
+			
+				var a_olay = $('<div></div>').addClass('albumize-overlay').attr('id', 'albumize-olay').css({'width' : pane_width, 'height' : pane_height});
+				var a_pane = $('<div></div>').addClass('albumize-pane').attr('id', 'albumize-pane');
+				var a_a_olay = $('<div><div id = "loading"></div></div>').addClass('albumize-album-overlay').attr('id', 'albumize-album-overlay');
+				var a_header = $('<div></div>').addClass('albumize-header').attr('id', 'albumize-header');
+				
+				var a_close = $('<button>&times;</button>').addClass('albumize-close').attr('id', 'albumize-close');
+				a_close.appendTo(a_header);
+				
+				var a_control = $('<div></div>').addClass('albumize-control-pane').attr('id', 'albumize-control-pane');
+				
+				//control elements
+				var a_prev = $('<div></div>').addClass('albumize-prev inactive').attr('id', 'albumize-prev');
+				var a_alist = $('<div></div>').addClass('albumize-album-list').attr('id', 'albumize-album-list-button');
+				var a_next = $('<div></div>').addClass('albumize-next').attr('id', 'albumize-next');
+				
+				//albums list pane
+				
+				var a_album_pane = $('<div><div class = "albumize-modal-header" \
+				id = "albumize-album-pane-header"><button class = "albumize-albums-close" \
+				id = "albumize-album-window-close">&times;</button><h3>Albums</h3></div>\
+				<div class = "albumize-modal-body" id = "albumize-album-pane-body"></div>\
+				<div class = "albumize-modal-footer" id = "albumize-album-pane-footer">a footer</div>\
+				</div>').addClass('albumize-album-window albumize-modal fade').attr('id', 'albumize-album-window');
+				
+				var a_thumb_div = $('<div>\
+									<div class = "albumize-t-slider" id = "albumize-t-slider">\
+										&lt;\
+									</div>\
+									<div class = "albumize-t-pane" id = "albumize-t-pane">\
+										\
+									</div>\
+								</div>').addClass('albumize-t-window').attr('id', 'albumize-t-window');
+								
+				var a_i_win = $('<div></div>').addClass('albumize-i-window').attr('id', 'albumize-i-window');
+				
+				//temp <div id = "albumize-t-header" class = "albumize-t-header"></div>
+										//<div id = "albumize-t-body" class = "albumize-t-body"></div>
+				
+				//append the structures
+				
+				a_control.append(a_prev, a_alist, a_next);
+				
+				a_pane.append(a_header);
+				a_pane.append(a_i_win);
+				a_pane.append(a_control);
+				a_pane.append(a_thumb_div);
+				
+				a_olay.appendTo(body);
+				a_pane.appendTo(body);
+				//a_a_olay.appendTo(a_pane);
+				a_pane.append(a_a_olay);
+				//a_album_pane.appendTo(a_pane);
+				a_pane.append(a_album_pane);
+				
+				//init variables here 
+				
+				var album_body = $('#albumize-album-pane-body');
+				
+				var a_a_pane = $('#albumize-album-window');
+				
+				var a_w_close = $('#albumize-album-window-close');
+				
+				var aao = $('#albumize-album-overlay');
+				
+				var slider = $('#albumize-t-slider');
+				var t_div = $('#albumize-t-window');
+				
+				var slider_open = true;
+		
+				//end of variable init
+				
+				//temp structure
+				var album_info = $('<div></div>').addClass('albumize-album-info');
+				album_body.append(album_info);
+				album_body.append(album_info.clone());
+				album_body.append(album_info.clone());
+				album_body.append(album_info.clone());
+				album_body.append(album_info.clone());
+				//temp structure
+				
+				//add event listeners
+				
+				body.on('click', '#albumize-olay', function(){
+					a_pane.slideUp('slow');
+					a_olay.fadeOut('slow');
+				});
+				
+				body.on('click', '#albumize-pane #albumize-close', function(){
+					a_a_pane.hide();
+					a_pane.slideUp('fast');
+					a_olay.fadeOut('fast');
+				});
+				
+				body.on('click', '#albumize-album-list-button', function(){
+					a_album_pane.fadeIn().addClass('in');
+					aao.fadeIn();
+				});
+				
+				body.on('click', '#albumize-album-window-close', function(){
+					a_album_pane.removeClass('in').fadeOut();
+					aao.fadeOut();
+				});
+				
+				body.on('click', '#albumize-t-slider', function(){
+					
+					slider_open = !slider_open;
+					
+						if(slider_open)
+							slider.text('<');
+						else
+							slider.text('>');
+							
+					t_div.toggleClass('t-hide');
+					
+				});
+				
+				body.on('click', '.albumize a', function(){
+				
+					var album_id = $(this).attr('data-albumize-album-id');
+					var image_id = $(this).attr('data-albumize-image-id');
+					var link = $(this).attr("href");
+					
+					
+					$.albumize('show', album_id, image_id, link);
+					
+					return false;
+				});
+				
+				
+			
+		}
+	
+	});
+
+
+})(jQuery, document, window);
+
+
+
+
+
+

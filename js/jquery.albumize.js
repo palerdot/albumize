@@ -286,7 +286,7 @@
 				
 				var a_thumb_div = $('<div>\
 									<div class = "albumize-t-slider" id = "albumize-t-slider">\
-										&lt;\
+										\
 									</div>\
 									<div class = "albumize-t-pane" id = "albumize-t-pane">\
 										\
@@ -368,9 +368,9 @@
 					slider_open = !slider_open;
 					
 						if(slider_open)
-							slider.text('<');
+							slider.removeClass('out');
 						else
-							slider.text('>');
+							slider.addClass('out');
 							
 					t_div.toggleClass('t-hide');
 					

@@ -184,7 +184,9 @@
 			border: thin solid #111;
 			
 			background-color: #a9a9a9;
-			
+			background-image: url(../img/1.png);
+			background-repeat: no-repeat;
+			background-position: 45% 45%;
 			
 			font-size: 2.5em;
 			font-weight: bold;
@@ -202,6 +204,11 @@
 			border-radius: 7px;
 			
 			
+		}
+		
+		.albumize-t-slider.out{
+			background-image: url(../img/2.png);
+			background-repeat: no-repeat;
 		}
 		
 		.albumize-t-slider:hover{

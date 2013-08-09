@@ -226,22 +226,31 @@
 			height: 100%;
 			border: thin solid #090909;
 			
-			background-color: #080808;
+			background-color: #333;
 		
 			float: left;
 			
-			-webkit-border-radius: 7px;
-			-moz-border-radius: 7px;
-			border-radius: 7px;
+			-webkit-border-radius: 10px;
+			-moz-border-radius: 10px;
+			border-radius: 10px;
 				
 		}
 		
+			.albumize-t-header{
+				height: 5%;
+			}
+			
+			.albumize-t-body{
+				height: 92%;
+				overflow-y: auto;
+			}
+		
 			.albumize-thumb-page{
-				height: 95%;
+				
 			}
 		
 			.albumize-thumb{
-				width: 85%;
+				width: 90%;
 				height: 30%;
 				margin: 5%;
 				display: block;

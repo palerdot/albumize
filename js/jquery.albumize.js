@@ -289,14 +289,12 @@
 										\
 									</div>\
 									<div class = "albumize-t-pane" id = "albumize-t-pane">\
-										\
+										<div class = "albumize-t-header" id = "albumize-t-header"></div>\
+										<div class = "albumize-t-body" id = "albumize-t-body"></div>\
 									</div>\
 								</div>').addClass('albumize-t-window').attr('id', 'albumize-t-window');
 								
 				var a_i_win = $('<div></div>').addClass('albumize-i-window').attr('id', 'albumize-i-window');
-				
-				//temp <div id = "albumize-t-header" class = "albumize-t-header"></div>
-										//<div id = "albumize-t-body" class = "albumize-t-body"></div>
 				
 				//append the structures
 				
@@ -313,6 +311,15 @@
 				a_pane.append(a_a_olay);
 				//a_album_pane.appendTo(a_pane);
 				a_pane.append(a_album_pane);
+				
+				
+				//temp
+				
+				var a_t_i = '<img class = "albumize-thumb" src = "sample/thumb-4.jpg"><img class = "albumize-thumb" src = "sample/thumb-1.jpg"><img class = "albumize-thumb" src = "sample/thumb-5.jpg"><img class = "albumize-thumb" src = "sample/thumb-2.jpg"><img class = "albumize-thumb" src = "sample/thumb-6.jpg"><img class = "albumize-thumb" src = "sample/thumb-3.jpg">';
+				
+				$('#albumize-t-body').append(a_t_i);
+				
+				//temp structure
 				
 				//init variables here 
 				

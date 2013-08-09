@@ -1,7 +1,7 @@
 
 (function ($, document, window){
 
-	win = $(window); doc = $(document);
+	win = $(window); doc = $(document);						
 
 	// *******************************************************************************
 				
@@ -9,7 +9,15 @@
 
 	function Albumize(){
 			
-				var temp = "temporary arun";
+				var a_pane = $('#albumize-pane');
+				var a_olay = $('#albumize-olay');
+				var a_a_olay = $('#albumize-album-overlay');
+				var a_win = $('#albumize-album-window');
+				var a_button = $('#albumize-album-list-button');
+				var i_win = $('#albumize-i-window');
+				
+				var dst = doc.scrollTop();
+				var dsl = doc.scrollLeft();
 			
 				// *******************************************************************************
 				
@@ -24,6 +32,7 @@
 					this.total_images = total_images; //total images in this album
 					
 					this.image_loaded = []; //array of image loaded status
+					this.images = []; //array of image objects
 					
 					this.thumbs_loaded = false; 
 					this.thumb_strip = '';
@@ -39,9 +48,94 @@
 				}
 				
 				function AP(){
+				
 					this.show_image = function(image_id, link){
-						console.log("Album id is "+this.id+"Image id is "+image_id + "and the link is "+link);		
+					
+						var doc_height = $(document).height();
+						var doc_width = $(document).width();
+		
+						var win_height = $(window).height();
+						var win_width = $(window).width();
+					
+						var pane_height = (doc_height/win_height)*100 + '%';
+						var pane_width = (doc_width/win_width)*100 + '%';
+						
+						var x = this.images[image_id];
+						
+						if(!this.image_loaded[image_id]){
+						
+							console.log('image is freshly loaded');
+							
+							//this.image_loaded[image_id] = true;
+							
+							var _this = this;
+						
+							//image is loaded for first time
+							
+							//******************************
+							
+							var img_width, img_height;
+							var ref_width = 682; var ref_height = 542;
+						
+							var img = new Image();
+							img.src = link;
+							img.onload = function(){
+							
+								if(this.width < 500){
+									img_width = this.width;
+								}else{
+									img_width = 500;
+								}
+							
+								if(img_height < 500){
+									img_height = this.height;	
+								}else{
+									img_height = 500;
+								}
+							
+								var i_width = (img_width/ref_width)*100;
+								var i_height = (img_height/ref_height)*100;
+							
+								var i_top = (100 - i_height)/2;
+								var i_left = (100 - i_width)/2;
+							
+								var jim = $(this);
+								jim.css({"width" : i_width+"%", "height" : i_height+"%", "position" : "absolute", "top" : i_top+"%", "left" : i_left+"%"});
+							
+								//x = $(this);
+								_this.images[image_id] = $(this);
+								_this.image_loaded[image_id] = true;
+							
+								i_win.html(jim);
+								
+								dst = doc.scrollTop();
+								dsl = doc.scrollLeft();
+							
+								a_olay.css({'width' : pane_width, 'height' : pane_height}).fadeIn('slow');
+								a_pane.css({'top' : dst + 'px', 'left' : dsl + 'px'}).slideDown('slow');
+								
+								};
+							
+							//*******************************
+						
+						}else{
+						
+							console.log('showing cached copy');
+							
+							i_win.html(this.images[image_id]);
+								
+							dst = doc.scrollTop();
+							dsl = doc.scrollLeft();
+							
+							a_olay.css({'width' : pane_width, 'height' : pane_height}).fadeIn('slow');
+							a_pane.css({'top' : dst + 'px', 'left' : dsl + 'px'}).slideDown('slow');
+							
+						
+						}
+								
 					};
+					
+					
 				}
 				
 				Album.prototype = new AP();
@@ -49,24 +143,10 @@
 				//end of Album object
 				
 				// ********************************************************************************
-			
-				var a_pane = $('#albumize-pane');
-				var a_olay = $('#albumize-olay');
-				var a_a_olay = $('#albumize-album-overlay');
-				var a_win = $('#albumize-album-window');
-				var a_button = $('#albumize-album-list-button');
-				
-				dst = doc.scrollTop();
-				dsl = doc.scrollLeft();
-			
-				this.show = function(){
-				
-					a_olay.fadeIn('slow');
-					a_pane.css({'top' : dst + 'px', 'left' : dsl + 'px'}).slideDown('slow');
-			
-				};
 				
 				this.show_albums = function(){
+					dst = doc.scrollTop();
+					dsl = doc.scrollLeft();
 					a_olay.fadeIn('slow');
 					a_pane.css({'top' : dst + 'px', 'left' : dsl + 'px'}).slideDown('slow');
 					a_button.click();
@@ -85,22 +165,16 @@
 							if(title == undefined)
 								title = '';
 							
-							console.log("title is :"+title);
+							//console.log("title is :"+title);
 				
 							var album_id = index;
 				
 							var imgs = $(this).children('a');
 							var total_images = imgs.length;
 							
-							console.log('Album '+index + ' has '+total_images + ' images');
-				
-								
-								
 							//create album objects
 							
 							albums[index] = new Album(album_id, total_images, title, imgs);
-							
-							//console.log(albums[album_id]);
 				
 						});
 						
@@ -108,41 +182,7 @@
 				
 					show : function(album_id, image_id, link){
 						
-						//console.log(albums[album_id]);
-						
-						albums[album_id].show_image(image_id, link);
-						
-						var img_width, img_height;
-						var ref_width = 682; var ref_height = 542;
-						
-						var img = new Image();
-						img.src = link;
-						img.onload = function(){
-							
-							if(this.width < 500){
-								img_width = this.width;
-							}else{
-								img_width = 500;
-							}
-							
-							if(img_height < 500){
-								img_height = this.height;	
-							}else{
-								img_height = 500;
-							}
-							
-							var i_width = (img_width/ref_width)*100;
-							var i_height = (img_height/ref_height)*100;
-							
-							var i_top = (100 - i_height)/2;
-							var i_left = (100 - i_width)/2;
-							
-							var jim = $(this);
-							jim.css({"width" : i_width+"%", "height" : i_height+"%", "position" : "absolute", "top" : i_top+"%", "left" : i_left+"%"});
-							
-							$('#albumize-i-window').html(jim);
-							
-						}; //end of img onload	
+						albums[album_id].show_image(image_id, link);	
 						
 					}//end of show
 					
@@ -155,36 +195,8 @@
 	
 	// *******************************************************************************
 				
-
-	var a = new Albumize(); //our main albumize object
-
-	$.albumize = function(){
-			
-			//var a = new Albumize();
-			
-			switch(arguments.length){
-			
-				case 0:
-					a.show_albums();
-				break;
-				
-				case 3:
-					if(typeof arguments[0] === "string" && a.methods[arguments[0]]){
-						a.methods[arguments[0]].call(a, arguments[1], arguments[2]);
-					}
-				break;
-				
-				case 4:
-					if(typeof arguments[0] === "string" && a.methods[arguments[0]]){
-						a.methods[arguments[0]].call(a, arguments[1], arguments[2], arguments[3]);
-						a.show();
-					}
-				break;
-			
-			}
-			
-	};
-
+	
+	var a; //our main albumize object
 
 	//prepare the DOM and attach events for added DOM elements
 
@@ -204,7 +216,8 @@
 		
 		var body = $(document.body); 
 		
-		var body = $(document.body);
+		var b_width = body.width();
+		var b_height = body.height();
 		
 		var albumize = $('.albumize');
 		
@@ -213,12 +226,36 @@
 	
 		initDOM();
 		
-		processDOM();
+		processDOM();		
 		
 		function processDOM(){
 		
-			$.albumize('init', total_albums, albumize);
+			var a = $('#albumize-pane');
+			var b = $('#albumize-olay');
+			var c = $('#albumize-album-overlay');
+			var d = $('#albumize-album-window');
+			var e = $('#albumize-album-list-button');
+		
+			a = new Albumize();
 			
+			//define the albumize utility plugin
+			
+			$.albumize = function(){
+			
+					if(arguments.length == 0){
+						a.show_albums();
+					}else if(typeof arguments[0] === "string" && a.methods[arguments[0]]){
+						var as = [];
+							for(var i = 1, al = arguments.length; i < al; i++){
+								as.push(arguments[i]);
+							}
+						a.methods[arguments[0]].apply(a, as);
+					}
+			
+			
+			};
+		
+			$.albumize('init', total_albums, albumize);
 		}
 		
 		function initDOM(){
@@ -355,7 +392,7 @@
 			
 		}
 	
-	});
+	}); // end of document ready
 
 
 })(jQuery, document, window);

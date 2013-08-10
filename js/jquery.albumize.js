@@ -141,7 +141,7 @@
 						if(this.current_image > 0){
 							
 							var now = parseInt(this.current_image) - 1;
-							console.log('now is '+now);
+							
 							this.show_image(now, this.image_links[now]);
 
 						}
@@ -153,7 +153,7 @@
 						if(this.current_image < (this.total_images-1)){
 						
 							var now = parseInt(this.current_image) + 1;
-							console.log('now is '+now);
+							
 							this.show_image(now, this.image_links[now]);
 						
 						}
@@ -263,9 +263,7 @@
 						
 						}else{
 						
-							if(this.current_image != image_id){
-								
-								//a different image is requested
+							
 								
 								console.log('showing cached copy');
 							
@@ -273,21 +271,13 @@
 								this.handle_nav(image_id);
 								i_win.hide().html(this.images[image_id]).fadeIn(1000);
 								
-								dst = doc.scrollTop();
-								dsl = doc.scrollLeft();
-							
-								a_olay.css({'width' : pane_width, 'height' : pane_height}).fadeIn('slow');
-								a_pane.css({'top' : dst + 'px', 'left' : dsl + 'px'}).slideDown('slow');
 								
-							}else{
-								console.log("same image is requested");
-							}
 						
 						}
 								
 					};
 					
-					this.show = function(){
+					this.show = function(image_id){
 					
 						if(!this.thumbs_loaded){
 							//thumbnail strips are not loaded yet
@@ -348,11 +338,26 @@
 												a_a_olay.fadeOut();
 											}
 											
-											//show the first image
-											_this.show_image(0, _this.image_links[0]);
-											_this.current_image = 0;
+												if(image_id == undefined){
 												
-											
+													//show the first image
+													//_this.current_image = 0;
+													_this.show_image(0, _this.image_links[0]);
+													
+												}else{
+												
+													//initiate albumize overlay
+													dst = doc.scrollTop();
+													dsl = doc.scrollLeft();
+							
+													a_olay.css({'width' : pane_width, 'height' : pane_height}).fadeIn('slow');
+													a_pane.css({'top' : dst + 'px', 'left' : dsl + 'px'}).slideDown('slow');
+													
+													//show the particular image
+													_this.show_image(image_id, _this.image_links[image_id]);
+								
+												}
+												
 										}
 										
 										
@@ -370,15 +375,31 @@
 							
 							console.log('thumbs already loaded');	
 							a_t_pane.html(this.thumb_strip);
+										
+								if(image_id == undefined){
+												
+									//show the first image
+									//_this.current_image = 0;
+									this.show_image(0, this.image_links[0]);
+									
+									a_win.removeClass('in').fadeOut();
+									loading.hide();
+									a_a_olay.fadeOut();
+													
+								}else{
+												
+									//initiate albumize overlay
+									dst = doc.scrollTop();
+									dsl = doc.scrollLeft();
 							
-							//show the first image
-							this.show_image(0, this.image_links[0]);
-							this.current_image = 0;
-							
-							a_win.removeClass('in').fadeOut();
-							loading.hide();
-							a_a_olay.fadeOut();
-							
+									a_olay.css({'width' : pane_width, 'height' : pane_height}).fadeIn('slow');
+									a_pane.css({'top' : dst + 'px', 'left' : dsl + 'px'}).slideDown('slow');
+													
+									//show the particular image
+									this.show_image(image_id, this.image_links[image_id]);
+								
+							}
+								
 						}
 					
 					};
@@ -420,9 +441,10 @@
 				
 				//shows the particular image
 				
-				this.show = function(album_id, image_id, link){
-						
-					albums[album_id].show_image(image_id, link);	
+				this.show = function(album_id, image_id){
+					
+					var link = albums[album_id].get_image_link(image_id);	
+					albums[album_id].show(image_id);	
 						
 				};
 				
@@ -634,9 +656,9 @@
 				
 					var album_id = parseInt($(this).attr('data-albumize-album-id'));
 					var image_id = parseInt($(this).attr('data-albumize-image-id'));
-					var link = $(this).attr("href");
+					//var link = $(this).attr("href");
 					
-					a.show(album_id, image_id, link);
+					a.show(album_id, image_id);
 					
 					return false;
 				});

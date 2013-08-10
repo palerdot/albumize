@@ -19,6 +19,9 @@
 				var loading = $('#albumize-loading');
 				var load_error = $('#albumize-loading-error');
 				
+				var prev_image = $('#albumize-prev');
+				var next_image = $('#albumize-next');
+				
 				var album_pane = $('#albumize-album-pane-body');
 				var a_t_pane = $('#albumize-t-pane');
 				
@@ -33,6 +36,8 @@
 				
 				var dst = doc.scrollTop();
 				var dsl = doc.scrollLeft();
+				
+				this.current_album = 0; //keeps track of current album
 			
 				// *******************************************************************************
 				
@@ -45,6 +50,8 @@
 					this.id = id; //album id 
 					this.title = title; //title of the album
 					this.total_images = total_images; //total images in this album
+					
+					this.current_image = 0; //keeps track of current image
 					
 					this.image_loaded = []; //array of image loaded status
 					this.images = []; //array of image objects
@@ -105,6 +112,58 @@
 				
 				function AP(){
 				
+					this.handle_nav = function(image_id){
+					
+						next_image.removeClass('albumize-inactive');
+						prev_image.removeClass('albumize-inactive');
+					
+						if(image_id == (this.total_images-1) || image_id == 0){
+						
+							if(image_id == (this.total_images-1)){
+								next_image.addClass('albumize-inactive');
+							}
+						
+							if(image_id == 0){
+								prev_image.addClass('albumize-inactive');
+							}
+							
+							if(image_id == (this.total_images-1) && image_id == 0){
+								next_image.addClass('albumize-inactive');
+								prev_image.addClass('albumize-inactive');
+							}
+						
+						}
+					
+					};
+				
+					this.prev = function(){
+						
+						if(this.current_image > 0){
+							
+							var now = parseInt(this.current_image) - 1;
+							console.log('now is '+now);
+							this.show_image(now, this.image_links[now]);
+
+						}
+						
+					};
+					
+					this.next = function(){
+					
+						if(this.current_image < (this.total_images-1)){
+						
+							var now = parseInt(this.current_image) + 1;
+							console.log('now is '+now);
+							this.show_image(now, this.image_links[now]);
+						
+						}
+					
+					};
+				
+					this.get_image_link = function(image_id){
+						return this.image_links[image_id];
+					};
+				
 					this.show_image = function(image_id, link){
 					
 						doc_height = $(document).height();
@@ -122,6 +181,12 @@
 						
 							console.log('image is freshly loaded');
 							
+							//show loading status
+							
+							loading.show();
+							a_a_olay.show();
+							
+							
 							//this.image_loaded[image_id] = true;
 							
 							var _this = this;
@@ -135,6 +200,18 @@
 						
 							var img = new Image();
 							img.src = link;
+							
+							img.onerror = function(){
+							
+								i_win.html(''); 
+								a_a_olay.stop().show();
+								load_error.html('Error loading image . . . <span id = "albumize-error-dismiss">Dismiss</span>').show();
+								loading.show();
+								_this.current_image = image_id;
+								_this.handle_nav(image_id);
+								
+							};
+							
 							img.onload = function(){
 							
 								if(this.width < 500){
@@ -161,8 +238,18 @@
 								//x = $(this);
 								_this.images[image_id] = $(this);
 								_this.image_loaded[image_id] = true;
-							
-								i_win.html(jim);
+								_this.current_image = image_id;
+								_this.handle_nav(image_id);
+								
+								if(!load_error.is(":visible")){
+								
+									load_error.hide();
+									loading.hide();
+									a_a_olay.hide();
+								
+								}
+				
+								i_win.hide().html(jim).fadeIn(1000);
 								
 								dst = doc.scrollTop();
 								dsl = doc.scrollLeft();
@@ -176,16 +263,25 @@
 						
 						}else{
 						
-							console.log('showing cached copy');
-							
-							i_win.html(this.images[image_id]);
+							if(this.current_image != image_id){
 								
-							dst = doc.scrollTop();
-							dsl = doc.scrollLeft();
+								//a different image is requested
+								
+								console.log('showing cached copy');
 							
-							a_olay.css({'width' : pane_width, 'height' : pane_height}).fadeIn('slow');
-							a_pane.css({'top' : dst + 'px', 'left' : dsl + 'px'}).slideDown('slow');
+								this.current_image = image_id;
+								this.handle_nav(image_id);
+								i_win.hide().html(this.images[image_id]).fadeIn(1000);
+								
+								dst = doc.scrollTop();
+								dsl = doc.scrollLeft();
 							
+								a_olay.css({'width' : pane_width, 'height' : pane_height}).fadeIn('slow');
+								a_pane.css({'top' : dst + 'px', 'left' : dsl + 'px'}).slideDown('slow');
+								
+							}else{
+								console.log("same image is requested");
+							}
 						
 						}
 								
@@ -212,35 +308,50 @@
 									
 									tim[i] = new Image();
 									tim[i].src = this.thumbs_src[i];
+									tim[i].setAttribute("data-albumize-album-id", this.id);
+									tim[i].setAttribute("data-albumize-image-id", i);
+									
 									
 									tim[i].onload = function(){
+										
 										this.className = "albumize-thumb";
-										//tim[i] = $(this);
-										//tim[i].addClass("albumize-thumb");
-										//var temp = $(this).addClass("albumize-thumb");
 										_this.thumb_strip.append(this);
 										
 										if(++loaded == _this.total_images){
 											
+											console.log("error images "+error_images);
+											
 											_this.thumb_strip = _this.thumb_strip.html();
 											a_t_pane.html(_this.thumb_strip);
 											
-											//show the first image
-											_this.show_image(0, _this.image_links[0]);
-											
-											if(error_images > 0){
-												load_error.html('Error loading some images . . . <span id = "albumize-error-dismiss">Dismiss</span>').fadeIn();
-												a_a_olay.delay('7000').fadeOut(function(){
-													loading.hide();
-													load_error.hide();
-												});
+											if(error_images > 0 && error_images != _this.total_images){
+													
+													load_error.html('Error loading some thumbnails . . . <span id = "albumize-error-dismiss">Dismiss</span>').fadeIn();
+													a_a_olay.delay('7000').fadeOut(function(){
+													
+														loading.hide();
+														load_error.hide();
+													
+														_this.thumbs_loaded = true;
+													
+													});
+												
 												
 											}else if(error_images == _this.total_images){
-												load_error.html('Error loading some images . . . <span id = "albumize-error-dismiss">Dismiss</span>').fadeIn();
+												load_error.html('Error loading images . . . <span id = "albumize-error-dismiss">Dismiss</span>').fadeIn();
+												_this.thumbs_loaded = false;
+												_this.thumb_strip = 0;
+												_this.thumb_strip = $('<div></div>');
 											}else if(error_images == 0){
+												_this.thumbs_loaded = true;
 												loading.hide();
 												a_a_olay.fadeOut();
 											}
+											
+											//show the first image
+											_this.show_image(0, _this.image_links[0]);
+											_this.current_image = 0;
+												
 											
 										}
 										
@@ -249,10 +360,24 @@
 									
 									tim[i].onerror = function(){
 										error_images++;
+										this.style.display = "none"; 
 										this.onload();
 									};
 										
 								}
+							
+						}else{
+							
+							console.log('thumbs already loaded');	
+							a_t_pane.html(this.thumb_strip);
+							
+							//show the first image
+							this.show_image(0, this.image_links[0]);
+							this.current_image = 0;
+							
+							a_win.removeClass('in').fadeOut();
+							loading.hide();
+							a_a_olay.fadeOut();
 							
 						}
 					
@@ -279,8 +404,6 @@
 							
 							if(title == undefined)
 								title = '';
-							
-							//console.log("title is :"+title);
 				
 							var album_id = index;
 				
@@ -306,8 +429,18 @@
 				//initializes the album and shows it
 				this.show_album = function(album_id){
 					
+					this.current_album = album_id;
 					albums[album_id].show();
 					
+				};
+				
+				//shows the image when the thumbnail is clicked
+				
+				this.show_image_from_thumb = function(album_id, image_id){
+				
+						var link = albums[album_id].get_image_link(image_id);
+						albums[album_id].show_image(image_id, link);
+						
 				};
 				
 				//shows album window
@@ -329,6 +462,19 @@
 					a_pane.css({'top' : dst + 'px', 'left' : dsl + 'px'}).slideDown('slow');
 					a_button.click();
 				};
+				
+				this.show_next = function(){
+					
+					albums[this.current_album].next();
+					
+				};
+				
+				this.show_prev = function(){
+					
+					albums[this.current_album].prev();
+					
+				};
+				
 				/*
 				this.methods = {
 				
@@ -446,12 +592,17 @@
 			// event listeners
 				
 				body.on('click', '#albumize-olay', function(){
+					a_album_pane.hide();
+					loading.hide(); load_error.hide();
+					aao.hide();
 					a_pane.slideUp('slow');
 					a_olay.fadeOut('slow');
 				});
 				
 				body.on('click', '#albumize-pane #albumize-close', function(){
 					a_album_pane.hide();
+					loading.hide(); load_error.hide();
+					aao.hide();
 					a_pane.slideUp('fast');
 					a_olay.fadeOut('fast');
 				});
@@ -481,12 +632,9 @@
 				
 				body.on('click', '.albumize a', function(){
 				
-					var album_id = $(this).attr('data-albumize-album-id');
-					var image_id = $(this).attr('data-albumize-image-id');
+					var album_id = parseInt($(this).attr('data-albumize-album-id'));
+					var image_id = parseInt($(this).attr('data-albumize-image-id'));
 					var link = $(this).attr("href");
-					
-					
-					//$.albumize('show', album_id, image_id, link);
 					
 					a.show(album_id, image_id, link);
 					
@@ -495,9 +643,7 @@
 				
 				body.on('click', '.albumize-album-info', function(){
 				
-					var album_id = $(this).attr("data-albumize-album-id");
-					
-					//$.albumize('show_album', album_id);
+					var album_id = parseInt($(this).attr("data-albumize-album-id"));
 					
 					a.show_album(album_id);
 					
@@ -506,11 +652,32 @@
 				
 				body.on('click', '#albumize-error-dismiss', function(){
 				
-					aao.stop();
+					aao.stop().fadeOut();
 					loading.hide();
 					load_error.hide();	
 				
 				});
+				
+				body.on('click', '.albumize-thumb', function(){
+				
+					var album_id = parseInt($(this).attr("data-albumize-album-id"));
+					var image_id = parseInt($(this).attr("data-albumize-image-id"));
+					a.show_image_from_thumb(album_id, image_id);
+				
+				});
+				
+				body.on('click', '#albumize-prev', function(){
+					
+					a.show_prev();
+				
+				});
+				
+				body.on('click', '#albumize-next', function(){
+
+					a.show_next();
+				
+				});
+				
 			
 			
 			// event listeners
@@ -532,7 +699,7 @@
 				var a_control = $('<div></div>').addClass('albumize-control-pane').attr('id', 'albumize-control-pane');
 				
 				//control elements
-				var a_prev = $('<div></div>').addClass('albumize-prev inactive').attr('id', 'albumize-prev');
+				var a_prev = $('<div></div>').addClass('albumize-prev').attr('id', 'albumize-prev');
 				var a_alist = $('<div></div>').addClass('albumize-album-list').attr('id', 'albumize-album-list-button');
 				var a_next = $('<div></div>').addClass('albumize-next').attr('id', 'albumize-next');
 				

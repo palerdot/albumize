@@ -47,7 +47,7 @@
 			background-color: #EEE9E9;
 			color: black;
 			
-			line-height: 2em;
+			line-height: 250%;
 			vertical-align: baseline;
 			font-size: 16px;
 			white-space: nowrap;
@@ -81,7 +81,7 @@
 			}
 			
 			#albumize-error-dismiss:hover{
-				background-color: #8B8682;
+				background-color: #666666;
 			}
 	
 		#albumize-loading{
@@ -170,13 +170,13 @@
 		border-radius: 7px;
 	}
 	
-		.albumize-prev.inactive{
+		.albumize-prev.albumize-inactive{
 			background-color: #333;
 			box-shadow: none;
 			cursor: text;
 		}
 	
-		.albumize-prev.inactive:hover{
+		.albumize-prev.albumize-inactive:hover{
 			background-color: #333;
 			box-shadow: none;
 			cursor: text;
@@ -200,6 +200,18 @@
 		background-repeat: no-repeat;
 		border-radius: 7px;
 	}
+	
+		.albumize-next.albumize-inactive{
+			background-color: #333;
+			box-shadow: none;
+			cursor: text;
+		}
+	
+		.albumize-next.albumize-inactive:hover{
+			background-color: #333;
+			box-shadow: none;
+			cursor: text;
+		}
 	
 .albumize-t-window{
 		position: absolute;
@@ -299,12 +311,6 @@
 				display: block;
 			}
 			
-			.albumize-image-error{
-				height: 0;
-				width: 0;
-				display: none;
-			}
-		
 		
 		
 	

@@ -130,6 +130,89 @@
 	.albumize-close:hover{
 		color: #fff;
 	 }
+	 
+	 #albumize-album-title-pane{
+	 	position: absolute;
+	 	top: 0;
+	 	left: 0;
+	 	width: 90%;
+	 	height: 50%;
+	 	float: left;
+	 	text-align: center;
+	 	border: thin solid grey;
+	 	
+	 	display: none;
+	 	
+	 }
+	 
+	 #albumize-album-label{
+	 	float: left;
+	 	display: inline-block;
+	 	position: absolute;
+	 	top: 10%;
+	 	left: 0;
+	 	width: 10%;
+	 	height: 80%;
+	 	
+	 	background-color: #EEE9E9;
+		color: black;
+		
+		line-height: 220%;
+		vertical-align: baseline;
+		font-size: 14px;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		text-align: center;
+		font-weight: bold;
+			
+		-webkit-border-radius: 7px;
+		-moz-border-radius: 7px;
+		border-radius: 7px;
+	 	
+	 }
+	 
+	 #albumize-album-name{
+	 	float: right;
+	 	display: inline-block;
+	 	width: 87%;
+	 	height: 100%;
+	 	
+	 	color: white;
+	 	
+	 	line-height: 220%;
+		vertical-align: baseline;
+	 	font-size: 15px;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		text-align: center;
+		font-weight: bold;
+	 	
+	 	border: thin solid grey;
+	 	
+	 }
+	 
+	 #albumize-image-title{
+	 	position: absolute;
+	 	top: 50%;
+	 	left: 12%;
+	 	width: 77%;
+	 	height: 50%;
+	 	
+	 	color: white;
+	 	
+	 	line-height: 220%;
+		vertical-align: baseline;
+	 	font-size: 14px;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		text-align: center;
+		font-weight: bold;
+	 	
+	 	border: thin solid grey;
+	 }
 
 .albumize-i-window{
 	position: absolute;

@@ -19,6 +19,10 @@
 				var loading = $('#albumize-loading');
 				var load_error = $('#albumize-loading-error');
 				
+				var a_title_div = $('#albumize-album-title-pane');
+				var a_title = $('#albumize-album-name');
+				var i_title = $('#albumize-image-title');
+				
 				var prev_image = $('#albumize-prev');
 				var next_image = $('#albumize-next');
 				
@@ -56,6 +60,7 @@
 					this.image_loaded = []; //array of image loaded status
 					this.images = []; //array of image objects
 					this.image_links = [];
+					this.image_titles = [];
 					
 					this.thumbs_loaded = false; 
 					this.thumb_strip = $('<div></div>');
@@ -69,7 +74,15 @@
 					imgs.each(function(index, elem){
 					
 						$(this).attr({"data-albumize-image-id" : index, "data-albumize-album-id" : id});
+						
 						_this.image_links.push($(this).attr("href"));
+						
+						var i_title = $(this).attr("title");
+							
+							if(title == undefined)
+								i_title = '';
+								
+						_this.image_titles.push(i_title);
 						
 						var im = $(this).children('img');
 						
@@ -274,10 +287,19 @@
 								
 						
 						}
+						
+						i_title.text(this.image_titles[image_id]);
 								
 					};
 					
 					this.show = function(image_id){
+					
+						if(this.title != ''){
+							a_title.text(this.title);
+							a_title_div.show();
+						}else{
+							a_title_div.hide();
+						}
 					
 						if(!this.thumbs_loaded){
 							//thumbnail strips are not loaded yet
@@ -716,7 +738,13 @@
 				var a_header = $('<div></div>').addClass('albumize-header').attr('id', 'albumize-header');
 				
 				var a_close = $('<button>&times;</button>').addClass('albumize-close').attr('id', 'albumize-close');
+				var a_album_title_div = $('<div><span id = "albumize-album-label">Album</span><span id = "albumize-album-name"></span></div>').attr('id', 'albumize-album-title-pane');
+				var a_i_title = $('<div></div>').attr("id", "albumize-image-title");
+				
 				a_close.appendTo(a_header);
+				a_album_title_div.appendTo(a_header);
+				a_i_title.appendTo(a_header);
+				
 				
 				var a_control = $('<div></div>').addClass('albumize-control-pane').attr('id', 'albumize-control-pane');
 				

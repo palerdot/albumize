@@ -465,6 +465,7 @@
 				
 				this.show = function(album_id, image_id){
 					
+					this.current_album = album_id;
 					var link = albums[album_id].get_image_link(image_id);	
 					albums[album_id].show(image_id);	
 						

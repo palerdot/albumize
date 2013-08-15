@@ -266,9 +266,11 @@
 		}
 		
 		.albumize a img{
-			width: 20%;
+			width: 200px;
 			height: 150px;
+			border: medium solid #333;
 		}
+		
 		
 		#forkongithub a{
 			background:#333;
@@ -330,6 +332,54 @@
 			}
 	
 		}
+		
+		#footer-div{
+			margin-bottom: 5%;
+			padding-bottom: 5% 0;
+			border-bottom: thick solid grey;
+			text-align: center;
+		}
+	
+			#github-button{
+				display: inline-block;
+				width: auto;
+				height: auto;
+				padding: 2%;
+				margin: 5% 0;
+				
+				font-size: 20px;
+				font-weight: bold;
+				text-decoration: none;
+				text-align: center;
+				
+				background-color: #333;
+				color: #eee;
+			
+				-webkit-border-radius: 15px;
+				-moz-border-radius: 15px;
+				border-radius: 15px;
+				
+				border: medium solid #333;
+				cursor: pointer;
+				transition: background-color 0.5s;
+			}
+			
+				#github-button:hover{
+					background-color: #555;
+					border: medium solid #333;
+				}
+				
+			#issue-link{
+				color: inherit;
+				font-weight: bold;
+				text-decoration: none;
+				cursor: pointer;
+			}
+			
+				#issue-link:hover{
+					color: #555;
+					text-decoration: underline;
+				}
 	
 	</style>
 	
@@ -390,10 +440,10 @@
 				
 				<div class = "albumize" title = "Space">
 				
-					<a href = "samples/d.jpg" title = "image title"><img src = "samples/4.jpg" class = "albumize-cover"></img></a>
-					<a href = "samples/e.jpg" title = "image title"><img src = "samples/5.jpg"></img></a>
-					<a href = "samples/f.jpg" title = "image title"><img src = "samples/6.jpg"></img></a>
-					<a href = "samples/g.jpg" title = "image title"><img src = "samples/7.jpg"></img></a>
+					<a href = "samples/d.jpg" title = "Earth from Space"><img src = "samples/4.jpg" class = "albumize-cover"></img></a>
+					<a href = "samples/e.jpg" title = "Surreal Space"><img src = "samples/5.jpg"></img></a>
+					<a href = "samples/f.jpg" title = "Our Galaxy"><img src = "samples/6.jpg"></img></a>
+					<a href = "samples/g.jpg" title = "Heavenly Space"><img src = "samples/7.jpg"></img></a>
 				
 				</div>
 				
@@ -401,10 +451,10 @@
 				
 				<div class = "albumize" title = "Night">
 				
-					<a href = "samples/a.jpg" title = "image title"><img src = "samples/1.jpg"></img></a>
-					<a href = "samples/b.jpg" title = "image title"><img src = "samples/2.jpg"></img></a>
-					<a href = "samples/c.jpg" title = "image title"><img src = "samples/3.jpg"></img></a>
-					<a href = "samples/h.jpg" title = "image title"><img src = "samples/8.jpg" class = "albumize-cover"></img></a>
+					<a href = "samples/a.jpg" title = "Island Night"><img src = "samples/1.jpg"></img></a>
+					<a href = "samples/b.jpg" title = "Ocean Night"><img src = "samples/2.jpg"></img></a>
+					<a href = "samples/c.jpg" title = "Full Moon Night"><img src = "samples/3.jpg"></img></a>
+					<a href = "samples/h.jpg" title = "Heavenly Night"><img src = "samples/8.jpg" class = "albumize-cover"></img></a>
 				
 				</div>
 				
@@ -526,6 +576,18 @@
 			
 			</div>
 			
+		</div>
+		
+		<div id = "footer-div">
+		
+			<div class = "steps-c">
+			
+				Albumize is an open source project, free to use in personal and commercial projects. If you want to report a problem or an issue, please raise an <a id = "issue-link" href = "#">issue on github</a>.
+				
+			</div>
+			
+			<div id = "github-button">View on Github</div>
+	
 		</div>
 	
 	</div>

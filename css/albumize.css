@@ -105,7 +105,6 @@
 	left: 25%;
 	height: 10%;
 	width: 50%;
-	border: thin solid #333333;
 }
 
 	.albumize-close{
@@ -139,8 +138,6 @@
 	 	height: 50%;
 	 	float: left;
 	 	text-align: center;
-	 	border: thin solid grey;
-	 	
 	 	display: none;
 	 	
 	 }
@@ -152,14 +149,15 @@
 	 	top: 10%;
 	 	left: 0;
 	 	width: 10%;
-	 	height: 80%;
+	 	height: 60%;
+	 	margin-top: 0.5%;
 	 	
 	 	background-color: #EEE9E9;
 		color: black;
 		
-		line-height: 220%;
+		line-height: 170%;
 		vertical-align: baseline;
-		font-size: 14px;
+		font-size: 12px;
 		white-space: nowrap;
 		overflow: hidden;
 		text-overflow: ellipsis;
@@ -189,8 +187,6 @@
 		text-align: center;
 		font-weight: bold;
 	 	
-	 	border: thin solid grey;
-	 	
 	 }
 	 
 	 #albumize-image-title{
@@ -210,8 +206,6 @@
 		text-overflow: ellipsis;
 		text-align: center;
 		font-weight: bold;
-	 	
-	 	border: thin solid grey;
 	 }
 
 .albumize-i-window{
@@ -220,7 +214,6 @@
 	left: 25%;
 	height: 80%;
 	width: 50%;
-	border: thin solid #333333;
 }
 
 
@@ -230,7 +223,6 @@
 	left: 25%;
 	height: 9%;
 	width: 50%;
-	border: thin solid #333333;
 	text-align: center;
 }
 
@@ -529,7 +521,6 @@
 			width: 55%;
 			height: 80%;
 			margin: 2%;
-			border: thin solid grey;
 			text-align: center;
 		}
 		
@@ -538,7 +529,6 @@
 				font-size: 18px;
 				font-weight: bold;
 				margin: 0;
-				border: thin solid grey;
 				text-align: center;
 				overflow: hidden;
 				white-space: nowrap;
@@ -550,7 +540,6 @@
 				font-size: 15px;
 				font-weight: bold;
 				margin: 0;
-				border: thin solid grey;
 				text-align: center;
 				overflow: hidden;
 				white-space: nowrap;

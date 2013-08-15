@@ -1,3 +1,16 @@
+/*
+
+Albumize v1.0
+by palerdot
+
+github: http://github.com/palerdot/
+contact: palerdot@gmail.com
+
+Released under MIT license
+http://opensource.org/licenses/MIT
+
+*/
+
 
 (function ($, document, window){
 

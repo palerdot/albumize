@@ -39,7 +39,7 @@
 	
 		#albumize-loading-error{
 			position: fixed;
-			top: 11%;
+			top: 4%;
 			left: 25%;
 			width: 50%;
 			height: 9%;
@@ -223,6 +223,7 @@
 	border: thin solid #333333;
 }
 
+
 .albumize-control-pane{
 	position: absolute;
 	top: 90%;
@@ -386,6 +387,23 @@
 				height: 92%;
 				overflow-y: auto;
 			}
+			
+					.albumize-t-body::-webkit-scrollbar {
+						 width: 10px;
+					} 
+					
+					.albumize-t-body::-webkit-scrollbar-track {
+						 -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+    							border-radius: 10px;
+    							background-color: #737373;
+					} /* the new scrollbar will have a flat appearance with the set background color */
+					
+					.albumize-t-body::-webkit-scrollbar-thumb {
+						 -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
+						 	border-radius: 10px;
+    							background-color: #999;
+					} /* this will style the thumb, ignoring the track */
+					
 		
 			.albumize-thumb{
 				width: 90%;

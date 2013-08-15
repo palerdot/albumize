@@ -27,7 +27,7 @@
 				var next_image = $('#albumize-next');
 				
 				var album_pane = $('#albumize-album-pane-body');
-				var a_t_pane = $('#albumize-t-pane');
+				var a_t_pane = $('#albumize-t-body');
 				
 				var doc_height = $(document).height();
 				var doc_width = $(document).width();
@@ -40,6 +40,8 @@
 				
 				var dst = doc.scrollTop();
 				var dsl = doc.scrollLeft();
+				
+				this.fresh_start = true; 
 				
 				this.current_album = 0; //keeps track of current album
 			
@@ -230,13 +232,13 @@
 								if(this.width < 500){
 									img_width = this.width;
 								}else{
-									img_width = 500;
+									img_width = ref_width;
 								}
 							
 								if(img_height < 500){
 									img_height = this.height;	
 								}else{
-									img_height = 500;
+									img_height = ref_height;
 								}
 							
 								var i_width = (img_width/ref_width)*100;
@@ -465,6 +467,7 @@
 				
 				this.show = function(album_id, image_id){
 					
+					this.fresh_start = false; 
 					this.current_album = album_id;
 					var link = albums[album_id].get_image_link(image_id);	
 					albums[album_id].show(image_id);	
@@ -474,6 +477,7 @@
 				//initializes the album and shows it
 				this.show_album = function(album_id){
 					
+					this.fresh_start = false; 
 					this.current_album = album_id;
 					albums[album_id].show();
 					
@@ -483,6 +487,7 @@
 				
 				this.show_image_from_thumb = function(album_id, image_id){
 				
+						this.fresh_start = false; 
 						var link = albums[album_id].get_image_link(image_id);
 						albums[album_id].show_image(image_id, link);
 						
@@ -506,6 +511,7 @@
 					a_olay.css({'width' : pane_width, 'height' : pane_height}).fadeIn('slow');
 					a_pane.css({'top' : dst + 'px', 'left' : dsl + 'px'}).slideDown('slow');
 					a_button.click();
+					
 				};
 				
 				this.show_next = function(){
@@ -640,8 +646,8 @@
 					a_album_pane.hide();
 					loading.hide(); load_error.hide();
 					aao.hide();
-					a_pane.slideUp('slow');
-					a_olay.fadeOut('slow');
+					a_pane.slideUp('fast');
+					a_olay.slideUp('fast');
 				});
 				
 				body.on('click', '#albumize-pane #albumize-close', function(){
@@ -658,8 +664,17 @@
 				});
 				
 				body.on('click', '#albumize-album-window-close', function(){
-					a_album_pane.removeClass('in').fadeOut();
-					aao.fadeOut();
+					
+					if(!a.fresh_start){
+						a_album_pane.removeClass('in').fadeOut();
+						aao.fadeOut();
+						
+					}else{
+						console.log('it is a fresh start');
+						a_olay.click();
+					}
+					
+					
 				});
 				
 				body.on('click', '#albumize-t-slider', function(){
@@ -760,7 +775,7 @@
 				id = "albumize-album-pane-header"><button class = "albumize-albums-close" \
 				id = "albumize-album-window-close">&times;</button><h3>Albums</h3></div>\
 				<div class = "albumize-modal-body" id = "albumize-album-pane-body"></div>\
-				<div class = "albumize-modal-footer" id = "albumize-album-pane-footer">a footer</div>\
+				<div class = "albumize-modal-footer" id = "albumize-album-pane-footer">click to view album</div>\
 				</div>').addClass('albumize-album-window albumize-modal fade').attr('id', 'albumize-album-window');
 				
 				var a_thumb_div = $('<div>\
@@ -791,13 +806,6 @@
 				a_pane.append(a_a_olay);
 				//a_album_pane.appendTo(a_pane);
 				a_pane.append(a_album_pane);
-				
-				
-				var a_t_i = '<img class = "albumize-thumb" src = "sample/thumb-4.jpg"><img class = "albumize-thumb" src = "sample/thumb-1.jpg"><img class = "albumize-thumb" src = "sample/thumb-5.jpg"><img class = "albumize-thumb" src = "sample/thumb-2.jpg"><img class = "albumize-thumb" src = "sample/thumb-6.jpg"><img class = "albumize-thumb" src = "sample/thumb-3.jpg">';
-				
-				$('#albumize-t-body').append(a_t_i);
-				
-				
 			
 		}
 	

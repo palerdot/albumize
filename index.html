@@ -4,19 +4,347 @@
 
 <head>
 
+	<title>Albumize jQuery Plugin</title>
+	
+	<style>
+	
+		html, body{
+			margin: 0;
+			padding: 0;
+			
+			font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+			
+			background-color: #eee;
+			background: #eee;
+			font-size: 19px;
+			color: #333;
+			
+		}
+	
+						
+		#main-page{
+			position: absolute;
+			top: 5%;
+			left: 15%;
+			height: auto;
+			width: 70%;
+				
+			text-align: center;
+				
+			overflow-x: none;
+				
+		}
+		
+		#main-label{
+			font-size: 34px;
+			font-weight: bold;
+			margin-bottom: 5%;
+			padding-bottom: 5%;
+			border-bottom: thick solid grey;
+		}
+		
+		#main-info{
+			font-size: 22px;
+			padding: 2%;
+			height: auto;
+			
+			line-height: 50px;
+			vertical-align: 30%;
+			
+			
+			background-color: #333;
+			color: #eee;
+			
+			-webkit-border-radius: 15px;
+			-moz-border-radius: 15px;
+			border-radius: 15px;
+		}
+		
+		#example-div{
+			margin-bottom: 5%;
+			padding-bottom: 5%;
+			border-bottom: thick solid grey;
+		}
+		
+			#examples-label{
+				text-align: center;
+				
+				font-size: 20px;
+				font-weight: bold;
+				margin-bottom: 2%;
+				padding-bottom: 2%;
+			}
+			
+			#show-albums-button{
+				display: inline-block
+				width: auto;
+				height: auto;
+				padding: 2% 5%;
+				margin-bottom: 2%;
+				
+				font-size: 30px;
+				font-weight: bold;
+				text-decoration: none;
+				text-align: center;
+				
+				background-color: #333;
+				color: #eee;
+			
+				-webkit-border-radius: 15px;
+				-moz-border-radius: 15px;
+				border-radius: 15px;
+				
+				border: medium solid #333;
+				cursor: pointer;
+				transition: background-color 0.5s;
+			}
+			
+				#show-albums-button:hover{
+					background-color: #555;
+					border: medium solid #333;
+				}
+	
+			#albums-holder{
+			}
+	
+		#setup-div{
+			margin-bottom: 5%;
+			padding-bottom: 5%;
+			border-bottom: thick solid grey;
+			text-align: center;
+		}
+		
+			#setup-label{
+				text-align: center;
+				
+				font-size: 20px;
+				font-weight: bold;
+				margin-bottom: 2%;
+				padding-bottom: 2%;
+			}
+	
+		#activate-div{
+			margin-bottom: 5%;
+			padding-bottom: 5%;
+			border-bottom: thick solid grey;
+		}
+		
+			#activate-label{
+				text-align: center;
+				
+				font-size: 20px;
+				font-weight: bold;
+				margin-bottom: 2%;
+				padding-bottom: 2%;
+			}
+			
+			#markup-label{
+				text-align: center;
+				font-size: 16px;
+				margin-bottom: 5%;
+			}
+			
+			#programatic-label{
+				text-align: center;
+				font-size: 16px;
+				margin-bottom: 5%;
+			}
+			
+		#download-div{
+			margin-bottom: 5%;
+			padding-bottom: 5% 0;
+			border-bottom: thick solid grey;
+			text-align: center;
+		}
+		
+			#download-label{
+				text-align: center;
+				
+				font-size: 20px;
+				font-weight: bold;
+				margin-bottom: 2%;
+				padding-bottom: 2%;
+			}
+			
+			#download-button{
+				display: inline-block;
+				width: auto;
+				height: auto;
+				padding: 2% 5%;
+				margin-bottom: 2%;
+				
+				font-size: 30px;
+				font-weight: bold;
+				text-decoration: none;
+				text-align: center;
+				
+				background-color: #333;
+				color: #eee;
+			
+				-webkit-border-radius: 15px;
+				-moz-border-radius: 15px;
+				border-radius: 15px;
+				
+				border: medium solid #333;
+				cursor: pointer;
+				transition: background-color 0.5s;
+			}
+			
+				#download-button:hover{
+					background-color: #555;
+					border: medium solid #333;
+				}
+			
+				#version{
+					font-size: 20px;
+					font-weight: bold;
+					text-decoration: none;
+					margin: 2% 0;
+				}
+		
+		.steps-c{
+			font-weight: normal;
+			font-size: 19px;
+			line-height: 39px;
+			vertical-align: baseline;
+			padding: 1%;
+			margin: 1%;
+			text-align: center;
+		}	
+			
+		.steps{
+			font-weight: normal;
+			font-size: 19px;
+			line-height: 39px;
+			vertical-align: baseline;
+			padding: 1%;
+			margin: 2%;
+			text-align: left;
+		}	
+			
+		.code{
+			background-color: #333;
+			color: #eee;
+			
+			margin: 1% 0;
+			padding: 0;
+			
+			overflow-x: auto;
+			
+			font-weight: normal;
+			font-size: 16px;
+			
+			text-align: left;
+			
+			-webkit-border-radius: 5px;
+			-moz-border-radius: 5px;
+			border-radius: 5px;
+		}
+		
+		.bold{
+			font-weight: bold;
+		}
+		
+		.hi{
+			background-color: #333;
+			color: #eee;
+			font-weight: bold;
+			font-size: 16px;
+			padding: 0.5% 1%;
+			margin: 0 0.4%;
+			
+			-webkit-border-radius: 5px;
+			-moz-border-radius: 5px;
+			border-radius: 5px;
+		}
+		
+		.albumize{
+			margin: 5% 0;
+			padding-bottom: 5%;
+			overflow-x: auto;
+			
+		}
+		
+		.albumize a img{
+			width: 20%;
+			height: 150px;
+		}
+		
+		#forkongithub a{
+			background:#333;
+			color:#eee;
+			text-decoration:none;
+			font-family:arial, sans-serif;
+			text-align:center;
+			font-weight:bold;
+			padding:5px 40px;
+			font-size:1rem;
+			line-height:2rem;
+			position:relative;
+			transition:0.5s;
+		}
+	
+	
+		#forkongithub a:hover{
+			background:#555;
+			color:#eee;
+		}
+	
+		#forkongithub a::before,#forkongithub a::after{
+			content:"";
+			width:100%;
+			display:block;
+			position:absolute;
+			top:1px;
+			left:0;
+			height:1px;
+			background:#333;
+		}
+	
+	
+		#forkongithub a::after{
+			bottom:1px;
+			top:auto;
+		}
+	
+		@media screen and (min-width:800px){
+	
+			#forkongithub{
+				position:absolute;
+				display:block;
+				top:0;
+				left:0;
+				width:200px;
+				overflow:hidden;
+				height:200px;
+			}
+	
+			#forkongithub a{
+				width:200px;
+				position:absolute;
+				top:60px;
+				left:-60px;
+				transform:rotate(-45deg);
+				-webkit-transform:rotate(-45deg);
+				box-shadow:4px 4px 10px rgba(0,0,0,0.8);
+			}
+	
+		}
+	
+	</style>
+	
 	<link href="css/albumize.css" rel="stylesheet" />
 	
-	<script src="js/jquery.js"></script>
+	<script src="js/jquery-1.10.2.min.js"></script>
 	<script src="js/jquery.albumize.js"></script>
 	
 	<script>
 		$(document).ready(function(){
 		
-			$('#show_button').click(function(){
-				
-					$.albumize();
-					
-					
+			var sb = $('#show-albums-button');
+			
+			sb.click(function(){
+				$.albumize();
 			});
 			
 		});
@@ -25,55 +353,182 @@
 </head>
 
 <body>
+	
+	<span id="forkongithub"><a href="#">Fork me on GitHub</a></span>
+	
+	<div id = "main-page">
+	
+		<header id = "main-label">
+			<h1>Albumize</h1>
+			
+			<div id = "main-info">
+				Albumize is a jQuery plugin that lets you manage collection of images in the web page as albums. With albumize, you can browse albums, add cover image to albums and switch between albums.
+			</div>
+		</header>
+		
+		<div id = "example-div">
+			
+			<header id = "examples-label"><h1>Examples</h1></header>	
+			
+			<button id = "show-albums-button">View albums</button>
+			
+			<div class = "steps-c">
+				Click the above button or click the images below to see the albumize plugin in action.
+			</div>
+			
+			<div class = "steps-c">
+				
+			</div>
+			
+			<div class = "steps-c">
+				
+			</div>
+			
+			<div id = "albums-holder">
+				
+				<div class = "bold">Space</div>
+				
+				<div class = "albumize" title = "Space">
+				
+					<a href = "samples/d.jpg" title = "image title"><img src = "samples/4.jpg" class = "albumize-cover"></img></a>
+					<a href = "samples/e.jpg" title = "image title"><img src = "samples/5.jpg"></img></a>
+					<a href = "samples/f.jpg" title = "image title"><img src = "samples/6.jpg"></img></a>
+					<a href = "samples/g.jpg" title = "image title"><img src = "samples/7.jpg"></img></a>
+				
+				</div>
+				
+				<div class = "bold">Night</div>
+				
+				<div class = "albumize" title = "Night">
+				
+					<a href = "samples/a.jpg" title = "image title"><img src = "samples/1.jpg"></img></a>
+					<a href = "samples/b.jpg" title = "image title"><img src = "samples/2.jpg"></img></a>
+					<a href = "samples/c.jpg" title = "image title"><img src = "samples/3.jpg"></img></a>
+					<a href = "samples/h.jpg" title = "image title"><img src = "samples/8.jpg" class = "albumize-cover"></img></a>
+				
+				</div>
+				
+			</div>
+			
+		</div>
+		
+		
+		<div id = "download-div">
+			
+			<header id = "download-label"><h1>Download</h1></header>	
+			
+			<a id = "download-button" href = "sample.html">
+				<div>Albumize</div>
+				<div id = "version">v1.0</div>
+			</a>
+			
+		</div>
+		
+		<div id = "setup-div">
+			
+			<header id = "setup-label"><h1>Setting up</h1></header>	
+			
+			<div class = "steps">
+			1) Download and unzip the albumize plugin package. 
+			</div>
+			
+			<div class = "steps">
+			
+				2) Add the jQuery library to the web page.
+			
+				<div class = "code">
+					<pre> &lt;script src=&quot;//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js&quot;&gt;&lt;/script&gt;</pre>
+				</div>
 
+				This example uses jQuery library from the google CDN. You can also add your own copy of latest jQuery library or add from the <span class = "hi">js</span> folder.
+			
+			</div>
+			
+			<div class = "steps">
+				3) Add <span class = "hi">albumize.js</span> file from the <span class = "hi">js</span> folder.	
+				
+				<div class = "code">
+					<pre> &lt;script src=&quot;js/albumize.js&quot;&gt;&lt;/script&gt;</pre>
+				</div>
+						
+			</div>
+			
+			<div class = "steps">
+			
+				4) Add <span class = "hi">albumize.css</span> file from the <span class = "hi">css</span> folder. This is the stylesheet albumize plugin uses for styling its components.
+				
+				<div class = "code">
+					<pre> &lt;link href=&quot;css/albumize.css&quot; rel=&quot;stylesheet&quot; /&gt; </pre>
+				</div>
+				
+				The stylesheet <span class = "hi">albumize.css</span> looks for image icons in the <span class = "hi">img</span> folder by default. 	
+				
+			</div>
+			
+		</div>
+		
+		<div id = "activate-div">
+			
+			<header id = "activate-label"><h1>Activating Albumize</h1></header>	
+			
+			<header id = "markup-label"><h2>Markup</h2></header>
+			
+			<div class = "steps">
+			
+				<div class = "code">
+			
+					<pre> &lt;div <span class = "bold">class=&quot;albumize&quot;</span> <span class = "bold">title=&quot;Album title&quot;</span>&gt; 
+	&lt;a href = &quot;image1.jpg&quot; <span class = "bold">title=&quot;image title&quot;</span>&gt; 
+		&lt;img src=&quot;thumbnail1.jpg&quot;&gt; &lt;/img&gt;
+	&lt;/a&gt;
+	&lt;a href = &quot;image2.jpg&quot; <span class = "bold">title=&quot;image title&quot;</span>&gt; 
+		&lt;img src=&quot;thumbnail2.jpg&quot;&gt; &lt;/img&gt;
+	&lt;/a&gt;
+ &lt;/div&gt;</pre>
+			
+				</div>
+
+			</div>
+			
+			<div class = "steps">
+			
+				1) Add <span class = "hi">class = "albumize"</span> to the div holding the collection of images to be shown as an album. Add <span class = "hi">title = "Album title"</span> to add an album title. Album title is optional.
+			
+			</div>
+			
+			<div class = "steps">
+			
+				2) Add <span class = "hi">title = "image title"</span> to the anchor element to add a title for the image. Image titles are optional.
+			
+			</div>
+			
+			<div class = "steps">
+			
+				The given markup is the required structure for a single album. For adding more than one album, repeat the same structure to other collection of images. For example, if you want to show 5 albums, then your HTML will have 5 divs of <span class = "hi">class = "albumize"</span>.
+			
+			</div>
+			
+			<header id = "programatic-label"><h2>Activation</h2></header>
+			
+			<div class = "steps">
+			
+				The above markup <span class = "bold">automatically</span> activates albumize plugin when the images are clicked. However, if you would like to have a custom button to show the list of your albums (as shown in the examples previously), you should programatically trigger like this:
+				
+				<div class = "code">
+				
+					<pre> $('#show-my-albums-button').click(function(){
+	<span class = "bold">$.albumize()<span class = "bold">;
+ });</pre>
+				
+				</div>
+				
+				Replace '#show-my-albums-button' with your own button/element id. This method can be handy if you don't want to show images in your web page, and just want to have a single button to show all your albums. In such cases, you can hide the images and trigger the <span class = "bold">albumize plugin</span> programatically with a button click.
+			
+			</div>
+			
+		</div>
 	
-	<div class = "albumize" title = "first album">
-	
-	<div>This is first album</div>
-		<a href = "sample/image-1.jpg" title = "image title"><img src = "sample/thumb-1.jpg"></img></a>
-		<a href = "sample/image-2.jpg" title = "image title"><img src = "sample/thumb-2.jpg" class = "albumize-cover"></img></a>
-		<a href = "sample/image-6.jpg" title = "image title"><img src = "sample/thumb-6.jpg"></img></a>
 	</div>
-	
-	<div class = "albumize">
-	
-	<div>This is second album</div>
-		<a href = "sample/image-6.jpg"><img src = "sample/thumb-6.jpg"></img></a>
-		<a href = "sample/image-3.jpg" title = "image title"><img src = "sample/thumb-3.jpg" class = "albumize-cover"></a>
-	</div>
-	
-	<div class = "albumize" title = "third album">
-	
-	<div>Third album</div>
-		<a href = "sample/image-4.jpg"><img src = "sample/thumb-4.jpg"></img></a>
-		<a href = "sample/image-5.jpg" title = "image title"><img src = "sample/thumb-5.jpg" class = "albumize-cover"></img></a>
-	</div>
-	
-	<button id = "show_button">hello</button>
-	
-	<div class = "albumize" title = "fourth album">
-	
-	<div>This is first album</div>
-	
-		<a href = "sample/photo-1.JPG"><img src = "sample/thumb-1.jpg"  class = "albumize-cover"></img></a>
-		<a href = "sample/Arun.jpg"><img src = "sample/thumb-2.jpg"></img></a>
-	</div>
-	
-	<div class = "albumize" title = "5th albbum">
-	
-	<div>This is second album</div>
-		<a href = "sample/image-5.jpg"><img src = "sample/thumb-6.jpg"  class = "albumize-cover"></img></a>
-		<a href = "sample/image-3.jpg"><img src = "sample/thumb-3.jpg"></a>
-	</div>
-	
-	<div class = "albumize" title = "last album">
-	
-	<div>Third album</div>
-		<a href = "sample/image-4.jpg"><img src = "sample/thumb-4.jpg"  class = "albumize-cover"></img></a>
-		<a href = "sample/image-5.jpg"><img src = "sample/thumb-5.jpg"></img></a>
-	</div>
-	
-	<button id = "show_loading">hello</button>
 
 </body>
 

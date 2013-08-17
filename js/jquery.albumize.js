@@ -3,6 +3,7 @@
 Albumize v1.0
 by palerdot
 
+website: http://palerdot.in
 github: http://github.com/palerdot/
 contact: palerdot@gmail.com
 
@@ -203,19 +204,12 @@ http://opensource.org/licenses/MIT
 						pane_height = (doc_height/win_height)*100 + '%';
 						pane_width = (doc_width/win_width)*100 + '%';
 						
-						//var x = this.images[image_id];
-						
 						if(!this.image_loaded[image_id]){
 						
-							console.log('image is freshly loaded');
-							
 							//show loading status
 							
 							loading.show();
 							a_a_olay.show();
-							
-							
-							//this.image_loaded[image_id] = true;
 							
 							var _this = this;
 						
@@ -263,7 +257,6 @@ http://opensource.org/licenses/MIT
 								var jim = $(this);
 								jim.css({"width" : i_width+"%", "height" : i_height+"%", "position" : "absolute", "top" : i_top+"%", "left" : i_left+"%"});
 							
-								//x = $(this);
 								_this.images[image_id] = $(this);
 								_this.image_loaded[image_id] = true;
 								_this.current_image = image_id;
@@ -290,17 +283,11 @@ http://opensource.org/licenses/MIT
 							//*******************************
 						
 						}else{
-						
-							
-								
-								console.log('showing cached copy');
 							
 								this.current_image = image_id;
 								this.handle_nav(image_id);
 								i_win.hide().html(this.images[image_id]).fadeIn(1000);
 								
-								
-						
 						}
 						
 						i_title.text(this.image_titles[image_id]);
@@ -317,10 +304,9 @@ http://opensource.org/licenses/MIT
 						}
 					
 						if(!this.thumbs_loaded){
-							//thumbnail strips are not loaded yet
 							
-							console.log("Album show request for "+this.id+"Thumbs loaded "+this.thumbs_loaded);
-							
+								//thumbnail strips are not loaded yet
+								
 								a_a_olay.fadeIn();
 								loading.show();
 								a_win.removeClass('in').fadeOut();
@@ -331,8 +317,8 @@ http://opensource.org/licenses/MIT
 								var _this = this;
 							
 								for(var i = 0; i < this.total_images; i++){
-									//construct the thumbnail strip
 									
+									//construct the thumbnail strip
 									tim[i] = new Image();
 									tim[i].src = this.thumbs_src[i];
 									tim[i].setAttribute("data-albumize-album-id", this.id);
@@ -345,8 +331,6 @@ http://opensource.org/licenses/MIT
 										_this.thumb_strip.append(this);
 										
 										if(++loaded == _this.total_images){
-											
-											console.log("error images "+error_images);
 											
 											_this.thumb_strip = _this.thumb_strip.html();
 											a_t_pane.html(_this.thumb_strip);
@@ -378,7 +362,6 @@ http://opensource.org/licenses/MIT
 												if(image_id == undefined){
 												
 													//show the first image
-													//_this.current_image = 0;
 													_this.show_image(0, _this.image_links[0]);
 													
 												}else{
@@ -409,14 +392,12 @@ http://opensource.org/licenses/MIT
 								}
 							
 						}else{
-							
-							console.log('thumbs already loaded');	
+								
 							a_t_pane.html(this.thumb_strip);
 										
 								if(image_id == undefined){
 												
 									//show the first image
-									//_this.current_image = 0;
 									this.show_image(0, this.image_links[0]);
 									
 									a_win.removeClass('in').fadeOut();
@@ -538,27 +519,7 @@ http://opensource.org/licenses/MIT
 					albums[this.current_album].prev();
 					
 				};
-				
-				/*
-				this.methods = {
-				
-					// an interface to call custom methods
-					
-					// currently not used
-				
-					show : function(album_id, image_id, link){
-						
-						albums[album_id].show_image(image_id, link);	
-						
-					},
-					
-					show_album: function(album_id){
-						albums[album_id].show();
-					}
-					
-				}; //end of methods 
-				*/
-	
+								
 			}
 			
 	//end of albumize object
@@ -567,7 +528,7 @@ http://opensource.org/licenses/MIT
 	// *******************************************************************************
 				
 	
-	var a; //our main albumize object
+	var a; //This will be the main albumize object
 
 	//prepare the DOM and attach events for added DOM elements
 
@@ -611,25 +572,6 @@ http://opensource.org/licenses/MIT
 						a.show_albums();
 					}
 					
-					/*
-					
-					//a way to call custom methods of $.albumize
-					
-					// methods are objects of 'methods' function
-					
-					// format is $.albumize("method name", arg1, arg2)
-					
-					// currently not used
-					
-					else if(typeof arguments[0] === "string" && a.methods[arguments[0]]){
-						var as = [];
-							for(var i = 1, al = arguments.length; i < al; i++){
-								as.push(arguments[i]);
-							}
-						a.methods[arguments[0]].apply(a, as);
-					}*/
-			
-			
 			};
 			
 			a.init(total_albums, albumize);
@@ -681,12 +623,14 @@ http://opensource.org/licenses/MIT
 					if(!a.fresh_start){
 						a_album_pane.removeClass('in').fadeOut();
 						aao.fadeOut();
-						
 					}else{
-						console.log('it is a fresh start');
-						a_olay.click();
+						
+						loading.hide(); load_error.hide();
+						a_pane.hide();
+						a_album_pane.removeClass('in').fadeOut();
+						aao.fadeOut('fast');
+						a_olay.fadeOut('fast');
 					}
-					
 					
 				});
 				
@@ -707,7 +651,6 @@ http://opensource.org/licenses/MIT
 				
 					var album_id = parseInt($(this).attr('data-albumize-album-id'));
 					var image_id = parseInt($(this).attr('data-albumize-image-id'));
-					//var link = $(this).attr("href");
 					
 					a.show(album_id, image_id);
 					
@@ -811,13 +754,11 @@ http://opensource.org/licenses/MIT
 				a_pane.append(a_i_win);
 				a_pane.append(a_control);
 				a_pane.append(a_thumb_div);
-				//a_pane.append('<div id = "albumize-loading-error">Error in loading images. Try again. </div>');
+				
 				
 				a_olay.appendTo(body);
 				a_pane.appendTo(body);
-				//a_a_olay.appendTo(a_pane);
 				a_pane.append(a_a_olay);
-				//a_album_pane.appendTo(a_pane);
 				a_pane.append(a_album_pane);
 			
 		}

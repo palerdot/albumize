@@ -1,10 +1,24 @@
+<!--
+
+Albumize v1.0
+by palerdot
+
+website: http://palerdot.in
+github: http://github.com/palerdot/
+contact: palerdot@gmail.com
+
+Released under MIT license
+http://opensource.org/licenses/MIT
+
+-->
+
 <!DOCTYPE html>
 
 <html>
 
 <head>
 
-	<title>Albumize jQuery Plugin</title>
+	<title>Albumize - jQuery Plugin</title>
 	
 	<style>
 	
@@ -241,6 +255,13 @@
 			border-radius: 5px;
 		}
 		
+		.comment{
+			font-weight: normal;
+			font-size: 13px;
+			color: #b8b8b8;
+			font-style: italic;
+		}
+		
 		.bold{
 			font-weight: bold;
 		}
@@ -271,6 +292,9 @@
 			border: medium solid #333;
 		}
 		
+			.albumize a img:hover{
+				border: medium solid grey;
+			}
 		
 		#forkongithub a{
 			background:#333;
@@ -383,7 +407,7 @@
 	
 	</style>
 	
-	<link href="css/albumize.css" rel="stylesheet" />
+	<link href="css/albumize-min.css" rel="stylesheet" />
 	
 	<script src="js/jquery-1.10.2.min.js"></script>
 	<script src="js/jquery.albumize.js"></script>
@@ -440,9 +464,9 @@
 				
 				<div class = "albumize" title = "Space">
 				
-					<a href = "samples/d.jpg" title = "Earth from Space"><img src = "samples/4.jpg" class = "albumize-cover"></img></a>
+					<a href = "samples/d.jpg" title = "Earth from Space"><img src = "samples/4.jpg"></img></a>
 					<a href = "samples/e.jpg" title = "Surreal Space"><img src = "samples/5.jpg"></img></a>
-					<a href = "samples/f.jpg" title = "Our Galaxy"><img src = "samples/6.jpg"></img></a>
+					<a href = "samples/f.jpg" title = "Our Galaxy"><img src = "samples/6.jpg" class = "albumize-cover"></img></a>
 					<a href = "samples/g.jpg" title = "Heavenly Space"><img src = "samples/7.jpg"></img></a>
 				
 				</div>
@@ -532,7 +556,7 @@
 		&lt;img src=&quot;thumbnail1.jpg&quot;&gt; &lt;/img&gt;
 	&lt;/a&gt;
 	&lt;a href = &quot;image2.jpg&quot; <span class = "bold">title=&quot;image title&quot;</span>&gt; 
-		&lt;img src=&quot;thumbnail2.jpg&quot;&gt; &lt;/img&gt;
+		&lt;img src=&quot;thumbnail2.jpg&quot <span class = "bold">class=&quot;albumize-cover&quot;</span>&gt; &lt;/img&gt;
 	&lt;/a&gt;
  &lt;/div&gt;</pre>
 			
@@ -542,13 +566,25 @@
 			
 			<div class = "steps">
 			
-				1) Add <span class = "hi">class = "albumize"</span> to the div holding the collection of images to be shown as an album. Add <span class = "hi">title = "Album title"</span> to add an album title. Album title is optional.
+				1) Add <span class = "hi">class = "albumize"</span> to the div holding the collection of images to be shown as an album. 
 			
 			</div>
 			
 			<div class = "steps">
 			
-				2) Add <span class = "hi">title = "image title"</span> to the anchor element to add a title for the image. Image titles are optional.
+				2) Add <span class = "hi">title = "Album title"</span> to the div of <span class = "hi">class = "albumize"</span> to add an album title. Album title is optional.
+			
+			</div>
+			
+			<div class = "steps">
+			
+				3) Add <span class = "hi">title = "image title"</span> to the anchor element to add a title for the image. Image titles are optional.
+			
+			</div>
+			
+			<div class = "steps">
+			
+				4) Add <span class = "hi">class = "albumize-cover"</span> to the image element within the anchor, to add the corresponding thumbnail as the cover for the album. If more than one image is given the <span class = "hi">class = "albumize-cover"</span>, then the<span class = "bold"> first image</span> element with class 'albumize-cover' will be used for the album cover. In the given example markup, thumbnail of second image will be used as album cover. Album covers are optional. 
 			
 			</div>
 			
@@ -566,13 +602,15 @@
 				
 				<div class = "code">
 				
-					<pre> $('#show-my-albums-button').click(function(){
+					<pre> <span class = "comment">//Here, $ is the alias of jQuery</span> 
+ $('#show-my-albums-button').click(function(){
 	<span class = "bold">$.albumize()<span class = "bold">;
- });</pre>
+ });
+ <span class = "comment">//Replace '#show-my-albums-button' with your own button/element id.</span> </pre>
 				
 				</div>
 				
-				Replace '#show-my-albums-button' with your own button/element id. This method can be handy if you don't want to show images in your web page, and just want to have a single button to show all your albums. In such cases, you can hide the images and trigger the <span class = "bold">albumize plugin</span> programatically with a button click.
+				 This method can be handy if you don't want to show images in your web page, and just want to have a single button to show all your albums. In such cases, you can hide the images and trigger the <span class = "bold">albumize plugin</span> programatically with a button click.
 			
 			</div>
 			
@@ -582,11 +620,11 @@
 		
 			<div class = "steps-c">
 			
-				Albumize is an open source project, free to use in personal and commercial projects. If you want to report a problem or an issue, please raise an <a id = "issue-link" href = "#">issue on github</a>.
+				Albumize is an open source project, free to use in personal and commercial projects. If you want to report a problem or an issue, please raise an <a id = "issue-link" href = "#">issue on GitHub</a>.
 				
 			</div>
 			
-			<div id = "github-button">View on Github</div>
+			<div id = "github-button">View on GitHub</div>
 	
 		</div>
 	

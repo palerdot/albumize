@@ -1,0 +1,30 @@
+{
+	"name": "albumize",
+	"title": "Albumize",
+	"description": "Manage collection of images in the webpage as albums. With albumize, you can browse albums, add cover image to albums and switch between albums.",
+	"keywords": ["albums","images","gallery","css3","slideshow"],
+	"version": "1.0.0",
+	"author": {
+		"name": "palerdot",
+		"url": "http://palerdot.in"
+	},
+	"maintainers": [
+	{
+		"name": "palerdot",
+		"email": "palerdot@gmail.com"
+	}
+	],
+	"licenses": [
+	{
+		"type": "MIT",
+		"url": "http://opensource.org/licenses/MIT"
+	}
+	],
+	"bugs": "https://github.com/palerdot/albumize/issues",
+	"homepage": "https://github.com/palerdot/albumize",
+	"docs": "http://palerdot.github.io/albumize",
+	"download": "https://github.com/palerdot/albumize/archive/master.zip",
+	"dependencies": {
+		"jquery": ">=1.8"
+	}
+}

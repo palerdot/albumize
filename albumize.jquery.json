@@ -21,7 +21,7 @@
 	}
 	],
 	"bugs": "https://github.com/palerdot/albumize/issues",
-	"homepage": "https://github.com/palerdot/albumize",
+	"homepage": "http://palerdot.github.io/albumize",
 	"docs": "http://palerdot.github.io/albumize",
 	"download": "https://github.com/palerdot/albumize/archive/master.zip",
 	"dependencies": {

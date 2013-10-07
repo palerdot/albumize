@@ -3,7 +3,7 @@
 	"title": "Albumize",
 	"description": "Manage collection of images in the webpage as albums. With albumize, you can browse albums, add cover image to albums and switch between albums.",
 	"keywords": ["albums","images","gallery","css3","slideshow"],
-	"version": "1.0.0",
+	"version": "1.1.1",
 	"author": {
 		"name": "palerdot",
 		"url": "http://palerdot.in"
